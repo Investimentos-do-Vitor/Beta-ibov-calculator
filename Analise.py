@@ -8,7 +8,7 @@ for Python 3.7
 
 import numpy as np
 import pandas as pd
-import pandas_datareader as wb
+#import pandas_datareader as wb
 import matplotlib.pyplot as plt
 import math
 
@@ -17,14 +17,26 @@ ticker = 'TRPL4 Historical Data.csv'
 tickername = 'TRPL4'
 
 #Lê os dados do CSV e armazena na variável
-#ibov = pd.read_csv('Bovespa Historical Data.csv')
+ibov = pd.read_csv('Bovespa Historical Data.csv')
+
+#Transforma a coluna Price em Números (em vez de Strings)
+def corrigir_virgulas(price):
+    price = price.replace(',', '')
+    #Remove as virgulas
+    return price
+
+ibov['Price'] = ibov['Price'].apply(corrigir_virgulas)
+ibov['Price'] = ibov['Price'].astype(float)
+
+"""
 ibov = wb.get_data_yahoo('^BVSP', 
                          start = '2015-11-01', 
                          end = '2020-10-29', 
                          interval = 'mo')
+"""
+
 ativo = pd.read_csv(ticker)
 #ativo = wb.get_data_yahoo('TRPL4.SA', interval = 'mo')
-
 
 
 #Elimina possíveis valores em branco
@@ -32,7 +44,7 @@ ibov = ibov.dropna()
 ativo = ativo.dropna()
 
 #Cria uma coluna com o retorno em relação ao mês anterior
-ibov['Retorno']=((ibov['Close']/ibov['Close'].shift(1))-1)
+ibov['Retorno']=((ibov['Price']/ibov['Price'].shift(1))-1)
 ativo['Retorno']=((ativo['Price']/ativo['Price'].shift(1))-1)
 
 #Calcula a média dos retornos
@@ -43,7 +55,7 @@ print(f'A média do IBOV é de {round(mean_ibov*100,2)}% ao mês')
 print(f'A média do Ativo {tickername} é de {round(mean_ativo*100,2)}% ao mês')
 
 #CONTA QUANTOS MESES FORAM RECEBIDOS NA VARIAVEL IBOV
-meses = len(ibov['Close'])
+meses = len(ibov['Price'])
 
 
 #Calcula a Variancia, isto é, os desvios em relação à média
@@ -72,16 +84,16 @@ def printdesvio(desvio_ibov, desvio_ativo):
           f'O desvio-padrão do IBOV é de {round(desvio_ibov, 2)}% \n'
           f'isso significa que: \n'
           f'Os retornos do IBOV vão estar entre:\n'
-          f'{round(mean_ibov-desvio_ibov, 2)}% e {round(mean_ibov+desvio_ibov,2)}% com 68% de confiança \n'
-          f'{round(mean_ibov-(desvio_ibov*1.96), 2)}% e {round(mean_ibov+(desvio_ibov*1.96),2)}% com 95% de confiança \n'
-          f'{round(mean_ibov-(desvio_ibov*3), 2)}% e {round(mean_ibov+(desvio_ibov*3),2)}% com 99% de confiança')
+          f'{round((mean_ibov*100)-desvio_ibov, 2)}% e {round((mean_ibov*100)+desvio_ibov,2)}% com 68% de confiança \n'
+          f'{round((mean_ibov*100)-(desvio_ibov*1.96), 2)}% e {round((mean_ibov*100)+(desvio_ibov*1.96),2)}% com 95% de confiança \n'
+          f'{round((mean_ibov*100)-(desvio_ibov*3), 2)}% e {round((mean_ibov*100)+(desvio_ibov*3),2)}% com 99% de confiança')
     print(f'\n'
           f'O desvio-padrão do ativo {tickername} é de {round(desvio_ativo,2)}% \n'
           f'isso significa que: \n'
           f'Os retornos do {tickername} vão estar entre:\n'
-          f'{round(mean_ativo-desvio_ativo, 2)}% e {round(mean_ativo+desvio_ativo,2)}% com 68% de confiança \n'
-          f'{round(mean_ativo-(desvio_ativo*1.96), 2)}% e {round(mean_ativo+(desvio_ativo*1.96),2)}% com 95% de confiança \n'
-          f'{round(mean_ativo-(desvio_ativo*3), 2)}% e {round(mean_ativo+(desvio_ativo*3),2)}% com 99% de confiança')
+          f'{round((mean_ativo*100)-desvio_ativo, 2)}% e {round((mean_ativo*100)+desvio_ativo,2)}% com 68% de confiança \n'
+          f'{round((mean_ativo*100)-(desvio_ativo*1.96), 2)}% e {round((mean_ativo*100)+(desvio_ativo*1.96),2)}% com 95% de confiança \n'
+          f'{round((mean_ativo*100)-(desvio_ativo*3), 2)}% e {round((mean_ativo*100)+(desvio_ativo*3),2)}% com 99% de confiança')
 
 printdesvio(desvio_ibov, desvio_ativo)
 
@@ -100,6 +112,7 @@ beta = covariancia / variancia_ibov
 print(f'\n'
       f'O BETA do ativo é de {round(beta,2)}')
 
+
 #Função de gerar histograma
 def histograma(dados):
     title = 'Retornos da ação ' + tickername
@@ -108,6 +121,7 @@ def histograma(dados):
     plt.xlabel('Retorno')
     plt.hist(dados)
 
+histograma(ativo['Retorno']*100)
 
 
     
