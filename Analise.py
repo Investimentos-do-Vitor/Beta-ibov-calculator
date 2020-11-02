@@ -42,16 +42,19 @@ mean_ativo = np.mean(ativo['Retorno'])
 print(f'A média do IBOV é de {round(mean_ibov*100,2)}% ao mês')
 print(f'A média do Ativo {tickername} é de {round(mean_ativo*100,2)}% ao mês')
 
+#CONTA QUANTOS MESES FORAM RECEBIDOS NA VARIAVEL IBOV
+meses = len(ibov['Close'])
+
 
 #Calcula a Variancia, isto é, os desvios em relação à média
 ibov['var_1'] = ((ibov['Retorno']-mean_ibov) ** 2)
 sum_var1 = np.sum(ibov.var_1)
-variancia_ibov = sum_var1/59
+variancia_ibov = sum_var1/(meses-1)
 #variancia_ibov = round(variancia_ibov, 2)
 
 ativo['var_1'] = ((ativo['Retorno']-mean_ativo) ** 2)
 sum_var2 = np.sum(ativo.var_1)
-variancia_ativo = sum_var2/59
+variancia_ativo = sum_var2/(meses-1)
 #variancia_ativo = (variancia_ativo)
 
 print(f'\n'
@@ -90,7 +93,7 @@ co_var['Ibov'] = (ibov['Retorno']-mean_ibov).values
 #Multiplica ativo por ibov
 co_var['multi'] = co_var['Ativo'] * co_var['Ibov']
 #Soma todas as multiplicações e divide por N-1
-covariancia = (np.sum(co_var.multi))/59
+covariancia = (np.sum(co_var.multi))/(meses-1)
 
 #CALCULA O BETA DO ATIVO
 beta = covariancia / variancia_ibov
