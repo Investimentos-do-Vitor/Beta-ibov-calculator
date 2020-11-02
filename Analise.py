@@ -74,8 +74,8 @@ print(f'\n'
       f'A variância do ativo {tickername} para o período é de {round(variancia_ativo*100,2)}%')
 
 #Calcula o Desvio-Padrão
-desvio_ibov = round(math.sqrt(variancia_ibov),2)*100
-desvio_ativo = round(math.sqrt(variancia_ativo),2)*100
+desvio_ibov = round((math.sqrt(variancia_ibov)*100),2)
+desvio_ativo = round((math.sqrt(variancia_ativo)*100),2)
 
 #calcula as probabilidades
 
