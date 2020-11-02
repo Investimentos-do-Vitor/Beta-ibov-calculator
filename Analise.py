@@ -72,16 +72,16 @@ def printdesvio(desvio_ibov, desvio_ativo):
           f'O desvio-padrão do IBOV é de {round(desvio_ibov, 2)}% \n'
           f'isso significa que: \n'
           f'Os retornos do IBOV vão estar entre:\n'
-          f'{round(mean_ibov-desvio_ibov, 2)}% e {round(mean_ibov+desvio_ibov,2)}% com 68% de confiança \n'
-          f'{round(mean_ibov-(desvio_ibov*1.96), 2)}% e {round(mean_ibov+(desvio_ibov*1.96),2)}% com 95% de confiança \n'
-          f'{round(mean_ibov-(desvio_ibov*3), 2)}% e {round(mean_ibov+(desvio_ibov*3),2)}% com 99% de confiança')
+          f'{round((mean_ibov*100)-desvio_ibov, 2)}% e {round((mean_ibov*100)+desvio_ibov,2)}% com 68% de confiança \n'
+          f'{round((mean_ibov*100)-(desvio_ibov*1.96), 2)}% e {round((mean_ibov*100)+(desvio_ibov*1.96),2)}% com 95% de confiança \n'
+          f'{round((mean_ibov*100)-(desvio_ibov*3), 2)}% e {round((mean_ibov*100)+(desvio_ibov*3),2)}% com 99% de confiança')
     print(f'\n'
           f'O desvio-padrão do ativo {tickername} é de {round(desvio_ativo,2)}% \n'
           f'isso significa que: \n'
           f'Os retornos do {tickername} vão estar entre:\n'
-          f'{round(mean_ativo-desvio_ativo, 2)}% e {round(mean_ativo+desvio_ativo,2)}% com 68% de confiança \n'
-          f'{round(mean_ativo-(desvio_ativo*1.96), 2)}% e {round(mean_ativo+(desvio_ativo*1.96),2)}% com 95% de confiança \n'
-          f'{round(mean_ativo-(desvio_ativo*3), 2)}% e {round(mean_ativo+(desvio_ativo*3),2)}% com 99% de confiança')
+          f'{round((mean_ativo*100)-desvio_ativo, 2)}% e {round((mean_ativo*100)+desvio_ativo,2)}% com 68% de confiança \n'
+          f'{round((mean_ativo*100)-(desvio_ativo*1.96), 2)}% e {round((mean_ativo*100)+(desvio_ativo*1.96),2)}% com 95% de confiança \n'
+          f'{round((mean_ativo*100)-(desvio_ativo*3), 2)}% e {round((mean_ativo*100)+(desvio_ativo*3),2)}% com 99% de confiança')
 
 printdesvio(desvio_ibov, desvio_ativo)
 
